@@ -1,0 +1,35 @@
+{
+  "name": "krayon",
+  "version": "0.0.1",
+  "description": "🖍 make javascript colorful",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabrielcsapo/krayon.git"
+  },
+  "author": "Gabriel J. Csapo <gabecsapo@gmail.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/gabrielcsapo/krayon/issues"
+  },
+  "homepage": "https://github.com/gabrielcsapo/krayon#readme",
+  "scripts": {
+    "lint": "eslint index.js test",
+    "test": "tape test/*.js",
+    "build": "browserify -r ./index.js:krayon -t [ brfs ] -t [ babelify --presets [ env ]]  > dist/krayon.js && minify dist/krayon.js --out-file dist/krayon.min.js",
+    "coverage": "tap test --coverage --coverage-report=lcov",
+    "generate-docs": "tryitout"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-minify": "^0.2.0",
+    "babel-preset-env": "^1.6.1",
+    "babelify": "^8.0.0",
+    "brfs": "^1.4.3",
+    "browserify": "^15.1.0",
+    "eslint": "^4.15.0",
+    "tap": "^11.0.1",
+    "tape": "^4.8.0"
+  }
+}

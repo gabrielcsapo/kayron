@@ -1,0 +1,41 @@
+const { name, description } = require('./package.json');
+
+module.exports = {
+  title: name,
+  description: description,
+  nav: {
+    Source: "https://github.com/gabrielcsapo/krayon"
+  },
+  body: [{
+    type: "text",
+    value: `
+      \`\`\`
+      npm install krayon --save
+      \`\`\`
+    `
+  }, {
+    type: "code",
+    title: "Colorizing Javascript has never been faster",
+    subtitle: "This will use the defaults",
+    value: `
+        var Krayon = require('krayon');
+
+        console.html(Krayon(\`
+          // this is a cool library check it out
+          var Turtler = require('turtler');
+          var table = new Turtler([
+            ["uid", "name"],
+            ["1", "Doe"],
+            ["2", "Hemma"]
+          ]);
+          table.markdown();
+        \`));
+      `
+  }],
+  output: "./docs",
+  externals: [
+    "./dist/krayon.min.js",
+    "./dist/krayon.css",
+    "./docs/main.css"
+  ]
+};
