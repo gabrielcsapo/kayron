@@ -103,4 +103,22 @@ test('@kayron', (t) => {
     t.end();
   });
 
+  t.test('should be able to parse multiline string that contains valid javascript', (t) => {
+    let parsed = kayron(`
+      const t = \`
+        function() {
+          return console.log;
+        }
+      \`;
+    `);
+    t.equal(parsed, `
+      <span class="keyword">const</span> t <span class="operator">=</span> <span class="string">\`
+        function() {
+          return console.log;
+        }
+      \`</span>;
+    `);
+    t.end();
+  });
+
 });

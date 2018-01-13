@@ -5,7 +5,7 @@
       <meta charset="utf-8">
       <meta name=viewport content="width=device-width, initial-scale=1">
       <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet">
-    <script type="text/javascript">require=function b(c,d,e){function a(h,i){if(!d[h]){if(!c[h]){var j="function"==typeof require&&require;if(!i&&j)return j(h,!0);if(g)return g(h,!0);var k=new Error("Cannot find module '"+h+"'");throw k.code="MODULE_NOT_FOUND",k}var f=d[h]={exports:{}};c[h][0].call(f.exports,function(b){var d=c[h][1][b];return a(d?d:b)},f,f.exports,b,c,d,e)}return d[h].exports}for(var g="function"==typeof require&&require,f=0;f<e.length;f++)a(e[f]);return a}({1:[function(a,b){var c=String.fromCharCode;b.exports.encode=function(a){return a.split("").map((a)=>127<a.charCodeAt(0)?a:c(a.charCodeAt(0)+10240)).join(" ")},b.exports.decode=function(a){return a.trim().split(" ").map((a)=>127<a.charCodeAt(0)-10240?a:c(a.charCodeAt(0)-10240)).join("")}},{}],krayon:[function(a,b){const{encode:c,decode:d}=a("./util.js"),e={comment:/(\/\*.*?\*\/|\/\/.*)/g,string:/("[^"]*"|'[^']+')/g,class:/\b([A-Z][a-z]+)\b/g,number:/\b([0-9]+(?:\.[0-9]+)?)\b/g,keyword:new RegExp("\\b("+["const","let","var","function","if","else","for","while","break","switch","case","do","new","continue","delete","return","this","true","false","throw","catch","typeof"].join("|")+")\\b","g"),function:/([\w+]*)\(.*\);?/g,operator:/([+|=|-||])/g};b.exports=function(a){return Object.keys(e).forEach((b)=>{a=a.replace(e[b],(a,d)=>{let e=a.replace(d,"");return`{#${b}#${c(d)}#}${e}`})}),a.replace(/\{#([a-z]+)#(.*?)#\}/g,(a,b,c)=>"<span class=\""+b+"\">"+d(c)+"</span>")}},{"./util.js":1}]},{},[]);</script><style type="text/css">.string {
+    <script type="text/javascript">require=function b(c,d,e){function a(h,i){if(!d[h]){if(!c[h]){var j="function"==typeof require&&require;if(!i&&j)return j(h,!0);if(g)return g(h,!0);var k=new Error("Cannot find module '"+h+"'");throw k.code="MODULE_NOT_FOUND",k}var f=d[h]={exports:{}};c[h][0].call(f.exports,function(b){var d=c[h][1][b];return a(d?d:b)},f,f.exports,b,c,d,e)}return d[h].exports}for(var g="function"==typeof require&&require,f=0;f<e.length;f++)a(e[f]);return a}({1:[function(a,b){var c=String.fromCharCode;b.exports.encode=function(a){return a.split("").map((a)=>127<a.charCodeAt(0)?a:c(a.charCodeAt(0)+10240)).join(" ")},b.exports.decode=function(a){return a.trim().split(" ").map((a)=>127<a.charCodeAt(0)-10240?a:c(a.charCodeAt(0)-10240)).join("")}},{}],krayon:[function(a,b){const{encode:c,decode:d}=a("./util.js"),e={comment:/(\/\*.*?\*\/|\/\/.*)/g,string:/("[^"]*"|'[^']+'|`[^`]+`)/g,class:/\b([A-Z][a-z]+)\b/g,number:/\b([0-9]+(?:\.[0-9]+)?)\b/g,keyword:new RegExp("\\b("+["const","let","var","function","if","else","for","while","break","switch","case","do","new","continue","delete","return","this","true","false","throw","catch","typeof"].join("|")+")\\b","g"),function:/([\w+]*)\(.*\);?/g,operator:/([+|=|-||])/g};b.exports=function(a){return Object.keys(e).forEach((b)=>{a=a.replace(e[b],(a,d)=>{let e=a.replace(d,"");return`{#${b}#${c(d)}#}${e}`})}),a.replace(/\{#([a-z]+)#(.*?)#\}/g,(a,b,c)=>"<span class=\""+b+"\">"+d(c)+"</span>")}},{"./util.js":1}]},{},[]);</script><style type="text/css">.string {
   color: #032f62
 }
 .keyword {
@@ -3848,8 +3848,11 @@ var Editor = function (_React$Component) {
           duration = _state.duration;
       var cons = output.cons,
           val = output.val;
+      // Since we don't want to display all html entities we just want to show spans
+      // Since we don't want to add extra characters by making these entities (which would throw off the underlying layer) we use a full-width greater than and less than. 
 
-      console.log(value);
+      var colorized = (0, _krayon2.default)(value.replace(/</g, "＜").replace(/>/g, "＞"));
+
       return _react2.default.createElement(
         'div',
         { className: 'editor' },
@@ -3860,7 +3863,7 @@ var Editor = function (_React$Component) {
             onChange: this.onChange.bind(this),
             value: value
           }),
-          _react2.default.createElement('pre', { className: 'textarea-overlay', style: { position: 'absolute', top: 0, backgroundColor: 'rgba(255, 255, 255, 0)', whiteSpace: "pre-wrap" }, dangerouslySetInnerHTML: { __html: (0, _krayon2.default)(value) } })
+          _react2.default.createElement('pre', { className: 'textarea-overlay', style: { position: 'absolute', top: 0, backgroundColor: 'rgba(255, 255, 255, 0)', whiteSpace: "pre-wrap" }, dangerouslySetInnerHTML: { __html: colorized } })
         ),
         _react2.default.createElement(
           'div',
@@ -4002,8 +4005,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../tryitout/node_modules/css-loader/index.js!./krayon.css", function() {
-			var newContent = require("!!../../tryitout/node_modules/css-loader/index.js!./krayon.css");
+		module.hot.accept("!!../../css-loader/index.js!./krayon.css", function() {
+			var newContent = require("!!../../css-loader/index.js!./krayon.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -4030,52 +4033,64 @@ exports.push([module.i, ".string {\n  color: #032f62\n}\n.keyword {\n  color: #d
 /* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-var _require = __webpack_require__(41),
-    encode = _require.encode,
-    decode = _require.decode;
+const { encode, decode } = __webpack_require__(41);
 
 // reserved keywords in javascript
-
-
-var keywords = ['const', 'let', 'var', 'function', 'if', 'else', 'for', 'while', 'break', 'switch', 'case', 'do', 'new', 'continue', 'delete', 'return', 'this', 'true', 'false', 'throw', 'catch', 'typeof'];
+const keywords = [
+  'const',
+  'let',
+  'var',
+  'function',
+  'if',
+  'else',
+  'for',
+  'while',
+  'break',
+  'switch',
+  'case',
+  'do',
+  'new',
+  'continue',
+  'delete',
+  'return',
+  'this',
+  'true',
+  'false',
+  'throw',
+  'catch',
+  'typeof',
+];
 
 // Syntax definition
 // The key becomes the class name of the <span>
 // around the matched block of code.
-var syntax = {
+const syntax = {
   'comment': /(\/\*.*?\*\/|\/\/.*)/g,
   'string': /("[^"]*"|'[^']+')/g,
   'class': /\b([A-Z][a-z]+)\b/g,
   'number': /\b([0-9]+(?:\.[0-9]+)?)\b/g,
-  'keyword': new RegExp('\\b(' + keywords.join('|') + ')\\b', 'g'),
+  'keyword': new(RegExp)('\\b(' + keywords.join('|') + ')\\b', 'g'),
   'function': /([\w+]*)\(.*\);?/g,
   'operator': /([+|=|-||])/g
 };
 
 module.exports = function kayron(code) {
-  Object.keys(syntax).forEach(function (s) {
-    code = code.replace(syntax[s], function (_, m) {
+  Object.keys(syntax).forEach((s) => {
+    code = code.replace(syntax[s], (_, m) => {
       // ensure if the regex only matches part of the string that we keep the leftover
-      var leftOver = _.replace(m, '');
+      let leftOver = _.replace(m, '');
       // encode the string and class
-      return '{#' + s + '#' + encode(m) + '#}' + leftOver;
+      return `{#${s}#${encode(m)}#}${leftOver}`;
     });
   });
 
-  return code.replace(/\{#([a-z]+)#(.*?)#\}/g, function (_, name, value) {
-    return '<span class="' + name + '">' + decode(value) + '</span>';
-  });
+  return code.replace(/\{#([a-z]+)#(.*?)#\}/g, (_, name, value) => '<span class="' + name + '">' + decode(value) + '</span>');
 };
+
 
 /***/ }),
 /* 41 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
+/***/ (function(module, exports) {
 
 /**
  * encode utf8 string to braile
@@ -4084,11 +4099,11 @@ module.exports = function kayron(code) {
  * @return {String} - brailed encoded string
  */
 module.exports.encode = function encode(str) {
-  return str.split('').map(function (s) {
+  return str.split('').map((s) => {
     if (s.charCodeAt(0) > 127) return s;
     return String.fromCharCode(s.charCodeAt(0) + 0x2800);
   }).join(' ');
-};
+}
 
 /**
  * decode brail back to utf8
@@ -4097,11 +4112,12 @@ module.exports.encode = function encode(str) {
  * @return {String} - utf8 decoded string
  */
 module.exports.decode = function decode(str) {
-  return str.trim().split(' ').map(function (s) {
+  return str.trim().split(' ').map((s) => {
     if (s.charCodeAt(0) - 0x2800 > 127) return s;
     return String.fromCharCode(s.charCodeAt(0) - 0x2800);
   }).join('');
-};
+}
+
 
 /***/ }),
 /* 42 */
@@ -4191,7 +4207,6 @@ var Textarea = function (_React$Component) {
 
       var isOneLine = height <= DEFAULT_HEIGHT;
 
-      console.log(isOneLine, height, value);
       return _react2.default.createElement('textarea', {
         className: 'textarea',
         name: 'textarea',
