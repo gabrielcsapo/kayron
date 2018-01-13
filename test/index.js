@@ -105,18 +105,18 @@ test('@kayron', (t) => {
 
   t.test('should be able to parse multiline string that contains valid javascript', (t) => {
     let parsed = kayron(`
-      const t = \`
-        function() {
-          return console.log;
-        }
-      \`;
-    `);
-    t.equal(parsed, `
-      <span class="keyword">const</span> t <span class="operator">=</span> <span class="string">\`
-        function() {
-          return console.log;
-        }
-      \`</span>;
+      var Krayon = require('krayon');
+
+      console.html(Krayon(\`
+        // this is a cool library check it out
+        var Turtler = require('turtler');
+        var table = new Turtler([
+          ["uid", "name"],
+          ["1", "Doe"],
+          ["2", "Hemma"]
+        ]);
+        table.markdown();
+      \`));
     `);
     t.end();
   });
