@@ -9,7 +9,7 @@ module.exports.encode = function encode(str) {
     if (s.charCodeAt(0) > 127) return s;
     return String.fromCharCode(s.charCodeAt(0) + 0x2800);
   }).join(' ');
-}
+};
 
 /**
  * decode brail back to utf8
@@ -22,4 +22,4 @@ module.exports.decode = function decode(str) {
     if (s.charCodeAt(0) - 0x2800 > 127) return s;
     return String.fromCharCode(s.charCodeAt(0) - 0x2800);
   }).join('');
-}
+};
