@@ -1,36 +1,9 @@
 require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-/**
- * encode utf8 string to braile
- * @method encode
- * @param  {String} str - utf8 string
- * @return {String} - brailed encoded string
- */
-module.exports.encode = function encode(str) {
-  return str.split('').map((s) => {
-    if (s.charCodeAt(0) > 127) return s;
-    return String.fromCharCode(s.charCodeAt(0) + 0x2800);
-  }).join(' ');
-}
-
-/**
- * decode brail back to utf8
- * @method decode
- * @param  {String} str - brail string
- * @return {String} - utf8 decoded string
- */
-module.exports.decode = function decode(str) {
-  return str.trim().split(' ').map((s) => {
-    if (s.charCodeAt(0) - 0x2800 > 127) return s;
-    return String.fromCharCode(s.charCodeAt(0) - 0x2800);
-  }).join('');
-}
-
-},{}],"krayon":[function(require,module,exports){
-const { encode, decode } = require('./util.js');
-
 // reserved keywords in javascript
 const keywords = [
   'const',
+  'console',
+  'process',
   'let',
   'var',
   'function',
@@ -58,26 +31,101 @@ const keywords = [
 // The key becomes the class name of the <span>
 // around the matched block of code.
 const syntax = {
-  'string': /("[^"]*"|'[^']+'|`[^`]+`)/g,
+  'string': /("[^"]*"|'[^']*'|`[^`]*`)/g,
   'comment': /(\/\*.*?\*\/|\/\/.*)/g,
   'class': /\b([A-Z][a-z]+)\b/g,
   'number': /\b([0-9]+(?:\.[0-9]+)?)\b/g,
   'keyword': new(RegExp)('\\b(' + keywords.join('|') + ')\\b', 'g'),
   'function': /([\w+]*)\(.*\);?/g,
-  'operator': /([+|=|-||])/g
+  'operator': /([+|=|-|||!|<|>|%|*|~])/g
 };
 
-module.exports = function kayron(code) {
+/**
+ * walks through the syntaxes that we have and tokenizes the entities that correspond
+ * @method parse
+ * @param  {String} code - raw code string
+ * @return {String} - encoded code string
+ */
+function parse(code) {
   Object.keys(syntax).forEach((s) => {
     code = code.replace(syntax[s], (_, m) => {
       // ensure if the regex only matches part of the string that we keep the leftover
       let leftOver = _.replace(m, '');
       // encode the string and class
-      return `{#${s}#${encode(m)}#}${leftOver}`;
+      let parsed = `{#${s}#${encode(m)}#}`;
+
+      if(s == 'function' && leftOver) {
+        // we want to parse sub commands and the easiest way to do that is to
+        // run over the leftOver portion of the function call with the same regex
+        let startingParenthesis = leftOver.indexOf('(');
+        let endingParenthesis = leftOver.lastIndexOf(')');
+        let endingComma = leftOver.lastIndexOf(';');
+
+        // since we don't want to create a new string for every operation
+        // we can simply walk the string and replace the character that needs it
+        let subFunction = leftOver.replace(/./g, (c, i) => {
+          // we can define a waterfall case that only replaces the three positions with nothing
+          // leaving the other characters in their place
+          switch(i) {
+            case startingParenthesis:
+            case endingParenthesis:
+            case endingComma:
+              return '';
+            default:
+              return c;
+          }
+        });
+        leftOver = `(${parse(subFunction)})${endingComma > -1 ? ';' : ''}`;
+      }
+      return parsed + leftOver;
     });
   });
+  return code;
+}
 
-  return code.replace(/\{#([a-z]+)#(.*?)#\}/g, (_, name, value) => '<span class="' + name + '">' + decode(value) + '</span>');
+/**
+ * encode utf8 string to braile
+ * @method encode
+ * @param  {String} str - utf8 string
+ * @return {String} - brailed encoded string
+ */
+function encode(str) {
+  return str.split('').map((s) => {
+    if (s.charCodeAt(0) > 127) return s;
+    return String.fromCharCode(s.charCodeAt(0) + 0x2800);
+  }).join(' ');
+};
+
+/**
+ * decode brail back to utf8
+ * @method decode
+ * @param  {String} str - brail string
+ * @return {String} - utf8 decoded string
+ */
+function decode(str) {
+  return str.trim().split(' ').map((s) => {
+    if (s.charCodeAt(0) - 0x2800 > 127) return s;
+    return String.fromCharCode(s.charCodeAt(0) - 0x2800);
+  }).join('');
+}
+
+module.exports = {
+  decode,
+  encode,
+  parse
+};
+
+},{}],"krayon":[function(require,module,exports){
+const { decode, parse } = require('./util.js');
+
+module.exports = function kayron(code) {
+  // we want to decode all the entities and walk the string to convert them to html entities
+  return parse(code).replace(/\{#([a-z]+)#(.*?)#\}/g, (_, name, value) => {
+    let decoded = decode(value);
+    // only return a span if the value is not blank
+    if(decoded !== '\x00') return `<span class="${name}">${decoded}</span>`;
+    return '';
+  });
 };
 
 },{"./util.js":1}]},{},[]);

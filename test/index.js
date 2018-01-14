@@ -1,17 +1,19 @@
 const test = require('tape');
-const kayron = require('../');
+const krayon = require('../');
 
-test('@kayron', (t) => {
+test('@krayon', (t) => {
 
   t.test('should be able to parse comments', (t) => {
-    let parsed = kayron(`// hello world`);
+    let parsed = krayon(`// hello world`);
     t.equal(parsed, '<span class="comment">// hello world</span>');
     t.end();
   });
 
   t.test('should be able to parse keywords', (t) => {
-    let parsed = kayron(`
+    let parsed = krayon(`
       const
+      console
+      process
       let
       var
       function
@@ -36,6 +38,8 @@ test('@kayron', (t) => {
     `);
     t.equal(parsed, `
       <span class="keyword">const</span>
+      <span class="keyword">console</span>
+      <span class="keyword">process</span>
       <span class="keyword">let</span>
       <span class="keyword">var</span>
       <span class="keyword">function</span>
@@ -62,7 +66,7 @@ test('@kayron', (t) => {
   });
 
   t.test('should be able to parse functions in different respects', (t) => {
-    let parsed = kayron(`
+    let parsed = krayon(`
       var Turtler = require('turtler');
       var table = new Turtler([
         ["uid", "name"],
@@ -84,13 +88,16 @@ test('@kayron', (t) => {
   });
 
   t.test('should be able to parse operators', (t) => {
-    let parsed = kayron(`
+    let parsed = krayon(`
       const t = 'hi';
       let b = 'hi';
       b += 'hiii';
       var d = 'asdf';
       b -= 'hiii';
       let s = b || d;
+      let f = !b || d;
+      let e = !b <> s;
+      let g = %(d / b) * ~(t / b);
     `);
     t.equal(parsed, `
       <span class="keyword">const</span> t <span class="operator">=</span> <span class="string">'hi'</span>;
@@ -99,12 +106,15 @@ test('@kayron', (t) => {
       <span class="keyword">var</span> d <span class="operator">=</span> <span class="string">'asdf'</span>;
       b -<span class="operator">=</span> <span class="string">'hiii'</span>;
       <span class="keyword">let</span> s <span class="operator">=</span> b <span class="operator">|</span><span class="operator">|</span> d;
+      <span class="keyword">let</span> f <span class="operator">=</span> <span class="operator">!</span>b <span class="operator">|</span><span class="operator">|</span> d;
+      <span class="keyword">let</span> e <span class="operator">=</span> <span class="operator">!</span>b <span class="operator"><</span><span class="operator">></span> s;
+      <span class="keyword">let</span> g <span class="operator">=</span> <span class="operator">%</span>(d / b) <span class="operator">*</span> <span class="operator">~</span>(t / b);
     `);
     t.end();
   });
 
   t.test('should be able to parse multiline string that contains valid javascript', (t) => {
-    let parsed = kayron(`
+    let parsed = krayon(`
       var Krayon = require('krayon');
 
       console.html(Krayon(\`
@@ -117,6 +127,38 @@ test('@kayron', (t) => {
         ]);
         table.markdown();
       \`));
+    `);
+
+    t.deepEqual(parsed, `
+      <span class="keyword">var</span> <span class="class">Krayon</span> <span class="operator">=</span> <span class="function">require</span>(<span class="string">'krayon'</span>);
+
+      <span class="keyword">console</span>.<span class="function">html</span>(<span class="class">Krayon</span>(<span class="string">\`
+        // this is a cool library check it out
+        var Turtler = require('turtler');
+        var table = new Turtler([
+          ["uid", "name"],
+          ["1", "Doe"],
+          ["2", "Hemma"]
+        ]);
+        table.markdown();
+      \`</span>));
+    `);
+    t.end();
+  });
+
+  t.test('should be able to parse zero width strings', (t) => {
+    t.equal(krayon(`''`), '<span class="string">\'\'</span>');
+    t.equal(krayon(`""`), '<span class="string">""</span>');
+    t.equal(krayon('``'), '<span class="string">``</span>');
+    t.end();
+  });
+
+  t.test('should be able to parse sub entities', (t) => {
+    let parsed = krayon(`
+      t.pipe(d.pipe(b.pipe()));
+    `);
+    t.equal(parsed, `
+      t.<span class="function">pipe</span>(d.<span class="function">pipe</span>(b.<span class="function">pipe</span>()));
     `);
     t.end();
   });

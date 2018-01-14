@@ -31,6 +31,34 @@ module.exports = {
           table.markdown();
         \`));
       `
+  }, {
+    type: "code",
+    title: "It can even colorize nested structures",
+    value: `
+      var Krayon = require('krayon');
+
+      console.html(Krayon(\`
+        p.pipe(d.pipe(l.pipe(process.stdout.write)));
+      \`));
+    `
+  }, {
+    type: "code",
+    title: "Operators are also colorized!",
+    value: `
+      var Krayon = require('krayon');
+
+      console.html(Krayon(\`
+        const t = 'hi';
+        let b = 'hi';
+        b += 'hiii';
+        var d = 'asdf';
+        b -= 'hiii';
+        let s = b || d;
+        let f = !b || d;
+        let e = !b <> s;
+        let g = %(d / b) * ~(t / b);
+      \`));
+    `
   }],
   output: "./docs",
   externals: [
