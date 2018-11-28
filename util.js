@@ -23,8 +23,8 @@ const keywords = [
   'false',
   'throw',
   'catch',
-  'typeof',
-];
+  'typeof'
+]
 
 // Syntax definition
 // The key becomes the class name of the <span>
@@ -34,10 +34,10 @@ const syntax = {
   'comment': /(\/\*.*?\*\/|\/\/.*)/g,
   'class': /\b([A-Z][a-z]+)\b/g,
   'number': /\b([0-9]+(?:\.[0-9]+)?)\b/g,
-  'keyword': new(RegExp)('\\b(' + keywords.join('|') + ')\\b', 'g'),
+  'keyword': new (RegExp)('\\b(' + keywords.join('|') + ')\\b', 'g'),
   'function': /([\w+]*)\(.*\);?/g,
   'operator': /([+|=|-|||!|<|>|%|*|~])/g
-};
+}
 
 /**
  * walks through the syntaxes that we have and tokenizes the entities that correspond
@@ -45,41 +45,41 @@ const syntax = {
  * @param  {String} code - raw code string
  * @return {String} - encoded code string
  */
-function parse(code) {
+function parse (code) {
   Object.keys(syntax).forEach((s) => {
     code = code.replace(syntax[s], (_, m) => {
       // ensure if the regex only matches part of the string that we keep the leftover
-      let leftOver = _.replace(m, '');
+      let leftOver = _.replace(m, '')
       // encode the string and class
-      let parsed = `{#${s}#${encode(m)}#}`;
+      let parsed = `{#${s}#${encode(m)}#}`
 
-      if(s == 'function' && leftOver) {
+      if (s === 'function' && leftOver) {
         // we want to parse sub commands and the easiest way to do that is to
         // run over the leftOver portion of the function call with the same regex
-        let startingParenthesis = leftOver.indexOf('(');
-        let endingParenthesis = leftOver.lastIndexOf(')');
-        let endingComma = leftOver.lastIndexOf(';');
+        let startingParenthesis = leftOver.indexOf('(')
+        let endingParenthesis = leftOver.lastIndexOf(')')
+        let endingComma = leftOver.lastIndexOf(';')
 
         // since we don't want to create a new string for every operation
         // we can simply walk the string and replace the character that needs it
         let subFunction = leftOver.replace(/./g, (c, i) => {
           // we can define a waterfall case that only replaces the three positions with nothing
           // leaving the other characters in their place
-          switch(i) {
+          switch (i) {
             case startingParenthesis:
             case endingParenthesis:
             case endingComma:
-              return '';
+              return ''
             default:
-              return c;
+              return c
           }
-        });
-        leftOver = `(${parse(subFunction)})${endingComma > -1 ? ';' : ''}`;
+        })
+        leftOver = `(${parse(subFunction)})${endingComma > -1 ? ';' : ''}`
       }
-      return parsed + leftOver;
-    });
-  });
-  return code;
+      return parsed + leftOver
+    })
+  })
+  return code
 }
 
 /**
@@ -88,11 +88,11 @@ function parse(code) {
  * @param  {String} str - utf8 string
  * @return {String} - brailed encoded string
  */
-function encode(str) {
+function encode (str) {
   return str.split('').map((s) => {
-    if (s.charCodeAt(0) > 127) return s;
-    return String.fromCharCode(s.charCodeAt(0) + 0x2800);
-  }).join(' ');
+    if (s.charCodeAt(0) > 127) return s
+    return String.fromCharCode(s.charCodeAt(0) + 0x2800)
+  }).join(' ')
 };
 
 /**
@@ -101,15 +101,15 @@ function encode(str) {
  * @param  {String} str - brail string
  * @return {String} - utf8 decoded string
  */
-function decode(str) {
+function decode (str) {
   return str.trim().split(' ').map((s) => {
-    if (s.charCodeAt(0) - 0x2800 > 127) return s;
-    return String.fromCharCode(s.charCodeAt(0) - 0x2800);
-  }).join('');
+    if (s.charCodeAt(0) - 0x2800 > 127) return s
+    return String.fromCharCode(s.charCodeAt(0) - 0x2800)
+  }).join('')
 }
 
 module.exports = {
   decode,
   encode,
   parse
-};
+}

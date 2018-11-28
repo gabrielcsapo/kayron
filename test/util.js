@@ -1,19 +1,22 @@
-const test = require('tape');
-const { encode, decode, parse } = require('../util.js');
+const test = require('tape')
+const { encode, decode, parse } = require('../util.js')
 
-test('@kayron util', (t) => {
-
+test('@util', (t) => {
   t.test('encode', (t) => {
-    t.equal(encode('boo'), '⡢ ⡯ ⡯');
-    t.end();
-  });
+    t.plan(1)
+
+    t.equal(encode('boo'), '⡢ ⡯ ⡯')
+  })
 
   t.test('decode', (t) => {
-    t.equal(decode('⡢ ⡯ ⡯'), 'boo');
-    t.end();
-  });
+    t.plan(1)
+
+    t.equal(decode('⡢ ⡯ ⡯'), 'boo')
+  })
 
   t.test('encode', (t) => {
+    t.plan(1)
+
     let parsed = parse(`
       const
       console
@@ -39,7 +42,7 @@ test('@kayron util', (t) => {
       throw
       catch
       typeof
-    `);
+    `)
     t.equal(parsed, `
       {#keyword#⡣ ⡯ ⡮ ⡳ ⡴#}
       {#keyword#⡣ ⡯ ⡮ ⡳ ⡯ ⡬ ⡥#}
@@ -65,8 +68,6 @@ test('@kayron util', (t) => {
       {#keyword#⡴ ⡨ ⡲ ⡯ ⡷#}
       {#keyword#⡣ ⡡ ⡴ ⡣ ⡨#}
       {#keyword#⡴ ⡹ ⡰ ⡥ ⡯ ⡦#}
-    `);
-    t.end();
-  });
-
-});
+    `)
+  })
+})

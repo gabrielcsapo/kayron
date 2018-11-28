@@ -1,3 +1,9 @@
+# 0.1.0 (11/28/2018)
+
+- migrates `babel-core` to `@babel/core`
+- migrates `eslint` to `standard`
+- updates `tryitout`
+
 # 0.0.4 (01/13/2018)
 
 - fixes bug where zero width strings that were either denoted using back tick or apostrophe

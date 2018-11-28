@@ -1,6 +1,6 @@
 {
   "name": "krayon",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "🖍 make javascript colorful",
   "main": "index.js",
   "repository": {
@@ -14,23 +14,34 @@
   },
   "homepage": "https://github.com/gabrielcsapo/krayon#readme",
   "scripts": {
-    "lint": "eslint index.js test",
+    "lint": "standard",
     "test": "tape test/*.js",
-    "build": "browserify -r ./index.js:krayon -t [ brfs ] -t [ babelify --presets [ env ]]  > dist/krayon.js && minify dist/krayon.js --out-file dist/krayon.min.js",
+    "build": "browserify -r ./index.js:krayon -t [ brfs ] -t [ babelify --presets [ @babel/env ]]  > dist/krayon.js && minify dist/krayon.js --out-file dist/krayon.min.js",
     "coverage": "tap test --coverage --coverage-report=lcov",
     "generate-docs": "tryitout"
   },
+  "files": [
+    "dist/**",
+    "util.js",
+    "index.js"
+  ],
+  "standard": {
+    "ignore": [
+      "docs/**",
+      "dist/**"
+    ]
+  },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.0",
-    "babel-minify": "^0.2.0",
-    "babel-preset-env": "^1.6.1",
-    "babelify": "^8.0.0",
-    "brfs": "^1.4.3",
-    "browserify": "^15.1.0",
-    "eslint": "^4.15.0",
-    "tap": "^11.0.1",
+    "@babel/cli": "^7.1.5",
+    "@babel/core": "^7.1.6",
+    "@babel/preset-env": "^7.1.6",
+    "babel-minify": "^0.5.0",
+    "babelify": "^10.0.0",
+    "brfs": "^2.0.1",
+    "browserify": "^16.2.3",
+    "standard": "^12.0.1",
+    "tap": "^12.1.0",
     "tape": "^4.8.0",
-    "tryitout": "^2.0.7"
+    "tryitout": "^2.1.1"
   }
 }
