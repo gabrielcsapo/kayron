@@ -15,9 +15,9 @@ test('@util', (t) => {
   })
 
   t.test('@objectToStyleString', (t) => {
-    t.plan(1);
+    t.plan(1)
 
-    t.equal(objectToStyleString({ color: 'blue', 'font-size': '19px'}), 'color:bluefont-size:19px')
+    t.equal(objectToStyleString({ color: 'blue', 'font-size': '19px' }), 'color:bluefont-size:19px')
   })
 
   t.test('encode', (t) => {

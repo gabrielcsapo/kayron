@@ -44,14 +44,14 @@ const syntax = {
  * @param  {Object} styleObject - object containing key value pair
  * @return {String}             - css style string
  */
-function objectToStyleString(styleObject) {
-  let styleString = '';
+function objectToStyleString (styleObject) {
+  let styleString = ''
 
   Object.keys(styleObject).forEach((key) => {
-    styleString += `${key}:${styleObject[key]}`;
-  });
+    styleString += `${key}:${styleObject[key]}`
+  })
 
-  return styleString;
+  return styleString
 }
 
 /**

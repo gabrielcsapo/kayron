@@ -108,7 +108,7 @@ test('@krayon', (t) => {
     `
 
     t.equal(krayon(testString), `
-      <span class="keyword" style=color:#d73a49>var</span> <span class="class" style=color:#6f42c1>Turtler</span> <span class="operator" style=color:#d73a49>=</span> <span class="function" style=color:#005cc5>require</span>(<span class="string" style=color:#032f62>\'turtler\'</span>);
+      <span class="keyword" style=color:#d73a49>var</span> <span class="class" style=color:#6f42c1>Turtler</span> <span class="operator" style=color:#d73a49>=</span> <span class="function" style=color:#005cc5>require</span>(<span class="string" style=color:#032f62>'turtler'</span>);
       <span class="keyword" style=color:#d73a49>var</span> table <span class="operator" style=color:#d73a49>=</span> <span class="keyword" style=color:#d73a49>new</span> <span class="class" style=color:#6f42c1>Turtler</span>([
         [<span class="string" style=color:#032f62>"uid"</span>, <span class="string" style=color:#032f62>"name"</span>],
         [<span class="string" style=color:#032f62>"1"</span>, <span class="string" style=color:#032f62>"Doe"</span>],
@@ -118,7 +118,7 @@ test('@krayon', (t) => {
     `)
 
     t.equal(krayon(testString, { output: 'ascii' }), `
-      \x1b[38;5;167mvar\x1b[39m \x1b[38;5;98mTurtler\x1b[39m \x1b[38;5;167m=\x1b[39m \x1b[38;5;32mrequire\x1b[39m(\x1b[38;5;24m\'turtler\'\x1b[39m);
+      \x1b[38;5;167mvar\x1b[39m \x1b[38;5;98mTurtler\x1b[39m \x1b[38;5;167m=\x1b[39m \x1b[38;5;32mrequire\x1b[39m(\x1b[38;5;24m'turtler'\x1b[39m);
       \x1b[38;5;167mvar\x1b[39m table \x1b[38;5;167m=\x1b[39m \x1b[38;5;167mnew\x1b[39m \x1b[38;5;98mTurtler\x1b[39m([
         [\x1b[38;5;24m"uid"\x1b[39m, \x1b[38;5;24m"name"\x1b[39m],
         [\x1b[38;5;24m"1"\x1b[39m, \x1b[38;5;24m"Doe"\x1b[39m],
@@ -144,11 +144,11 @@ test('@krayon', (t) => {
     `
 
     t.equal(krayon(testString), `
-      <span class="keyword" style=color:#d73a49>const</span> t <span class="operator" style=color:#d73a49>=</span> <span class="string" style=color:#032f62>\'hi\'</span>;
-      <span class="keyword" style=color:#d73a49>let</span> b <span class="operator" style=color:#d73a49>=</span> <span class="string" style=color:#032f62>\'hi\'</span>;
-      b <span class="operator" style=color:#d73a49>+</span><span class="operator" style=color:#d73a49>=</span> <span class="string" style=color:#032f62>\'hiii\'</span>;
-      <span class="keyword" style=color:#d73a49>var</span> d <span class="operator" style=color:#d73a49>=</span> <span class="string" style=color:#032f62>\'asdf\'</span>;
-      b -<span class="operator" style=color:#d73a49>=</span> <span class="string" style=color:#032f62>\'hiii\'</span>;
+      <span class="keyword" style=color:#d73a49>const</span> t <span class="operator" style=color:#d73a49>=</span> <span class="string" style=color:#032f62>'hi'</span>;
+      <span class="keyword" style=color:#d73a49>let</span> b <span class="operator" style=color:#d73a49>=</span> <span class="string" style=color:#032f62>'hi'</span>;
+      b <span class="operator" style=color:#d73a49>+</span><span class="operator" style=color:#d73a49>=</span> <span class="string" style=color:#032f62>'hiii'</span>;
+      <span class="keyword" style=color:#d73a49>var</span> d <span class="operator" style=color:#d73a49>=</span> <span class="string" style=color:#032f62>'asdf'</span>;
+      b -<span class="operator" style=color:#d73a49>=</span> <span class="string" style=color:#032f62>'hiii'</span>;
       <span class="keyword" style=color:#d73a49>let</span> s <span class="operator" style=color:#d73a49>=</span> b <span class="operator" style=color:#d73a49>|</span><span class="operator" style=color:#d73a49>|</span> d;
       <span class="keyword" style=color:#d73a49>let</span> f <span class="operator" style=color:#d73a49>=</span> <span class="operator" style=color:#d73a49>!</span>b <span class="operator" style=color:#d73a49>|</span><span class="operator" style=color:#d73a49>|</span> d;
       <span class="keyword" style=color:#d73a49>let</span> e <span class="operator" style=color:#d73a49>=</span> <span class="operator" style=color:#d73a49>!</span>b <span class="operator" style=color:#d73a49><</span><span class="operator" style=color:#d73a49>></span> s;
@@ -156,11 +156,11 @@ test('@krayon', (t) => {
     `)
 
     t.equal(krayon(testString, { output: 'ascii' }), `
-      \x1b[38;5;167mconst\x1b[39m t \x1b[38;5;167m=\x1b[39m \x1b[38;5;24m\'hi\'\x1b[39m;
-      \x1b[38;5;167mlet\x1b[39m b \x1b[38;5;167m=\x1b[39m \x1b[38;5;24m\'hi\'\x1b[39m;
-      b \x1b[38;5;167m+\x1b[39m\x1b[38;5;167m=\x1b[39m \x1b[38;5;24m\'hiii\'\x1b[39m;
-      \x1b[38;5;167mvar\x1b[39m d \x1b[38;5;167m=\x1b[39m \x1b[38;5;24m\'asdf\'\x1b[39m;
-      b -\x1b[38;5;167m=\x1b[39m \x1b[38;5;24m\'hiii\'\x1b[39m;
+      \x1b[38;5;167mconst\x1b[39m t \x1b[38;5;167m=\x1b[39m \x1b[38;5;24m'hi'\x1b[39m;
+      \x1b[38;5;167mlet\x1b[39m b \x1b[38;5;167m=\x1b[39m \x1b[38;5;24m'hi'\x1b[39m;
+      b \x1b[38;5;167m+\x1b[39m\x1b[38;5;167m=\x1b[39m \x1b[38;5;24m'hiii'\x1b[39m;
+      \x1b[38;5;167mvar\x1b[39m d \x1b[38;5;167m=\x1b[39m \x1b[38;5;24m'asdf'\x1b[39m;
+      b -\x1b[38;5;167m=\x1b[39m \x1b[38;5;24m'hiii'\x1b[39m;
       \x1b[38;5;167mlet\x1b[39m s \x1b[38;5;167m=\x1b[39m b \x1b[38;5;167m|\x1b[39m\x1b[38;5;167m|\x1b[39m d;
       \x1b[38;5;167mlet\x1b[39m f \x1b[38;5;167m=\x1b[39m \x1b[38;5;167m!\x1b[39mb \x1b[38;5;167m|\x1b[39m\x1b[38;5;167m|\x1b[39m d;
       \x1b[38;5;167mlet\x1b[39m e \x1b[38;5;167m=\x1b[39m \x1b[38;5;167m!\x1b[39mb \x1b[38;5;167m<\x1b[39m\x1b[38;5;167m>\x1b[39m s;
@@ -187,7 +187,7 @@ test('@krayon', (t) => {
     `
 
     t.deepEqual(krayon(testString), `
-      <span class="keyword" style=color:#d73a49>var</span> <span class="class" style=color:#6f42c1>Krayon</span> <span class="operator" style=color:#d73a49>=</span> <span class="function" style=color:#005cc5>require</span>(<span class="string" style=color:#032f62>\'krayon\'</span>);
+      <span class="keyword" style=color:#d73a49>var</span> <span class="class" style=color:#6f42c1>Krayon</span> <span class="operator" style=color:#d73a49>=</span> <span class="function" style=color:#005cc5>require</span>(<span class="string" style=color:#032f62>'krayon'</span>);
 
       <span class="keyword" style=color:#d73a49>console</span>.<span class="function" style=color:#005cc5>html</span>(<span class="class" style=color:#6f42c1>Krayon</span>(<span class="string" style=color:#032f62>\`
         // this is a cool library check it out
@@ -202,11 +202,11 @@ test('@krayon', (t) => {
     `)
 
     t.deepEqual(krayon(testString, { output: 'ascii' }), `
-      \x1b[38;5;167mvar\x1b[39m \x1b[38;5;98mKrayon\x1b[39m \x1b[38;5;167m=\x1b[39m \x1b[38;5;32mrequire\x1b[39m(\x1b[38;5;24m\'krayon\'\x1b[39m);
+      \x1b[38;5;167mvar\x1b[39m \x1b[38;5;98mKrayon\x1b[39m \x1b[38;5;167m=\x1b[39m \x1b[38;5;32mrequire\x1b[39m(\x1b[38;5;24m'krayon'\x1b[39m);
 
       \x1b[38;5;167mconsole\x1b[39m.\x1b[38;5;32mhtml\x1b[39m(\x1b[38;5;98mKrayon\x1b[39m(\x1b[38;5;24m\`\x1b[39m
 \x1b[38;5;24m        // this is a cool library check it out\x1b[39m
-\x1b[38;5;24m        var Turtler = require(\'turtler\');\x1b[39m
+\x1b[38;5;24m        var Turtler = require('turtler');\x1b[39m
 \x1b[38;5;24m        var table = new Turtler([\x1b[39m
 \x1b[38;5;24m          ["uid", "name"],\x1b[39m
 \x1b[38;5;24m          ["1", "Doe"],\x1b[39m

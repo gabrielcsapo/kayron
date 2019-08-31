@@ -1,3 +1,7 @@
+# 0.2.1 (11/28/2018)
+
+- set color level to 2
+
 # 0.2.0 (11/28/2018)
 
 - introduces new options argument
