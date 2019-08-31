@@ -1,6 +1,6 @@
 {
   "name": "krayon",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "🖍 make javascript colorful",
   "main": "index.js",
   "repository": {
@@ -43,5 +43,8 @@
     "tap": "^12.1.0",
     "tape": "^4.8.0",
     "tryitout": "^2.1.1"
+  },
+  "dependencies": {
+    "chalk": "^2.4.2"
   }
 }

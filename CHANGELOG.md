@@ -1,3 +1,10 @@
+# 0.2.0 (11/28/2018)
+
+- introduces new options argument
+  - it will take an output type (html or ascii)
+  - it will take a theme object that can be used to override the existing theme
+- colors are inlined, krayon.css is no longer required
+
 # 0.1.0 (11/28/2018)
 
 - migrates `babel-core` to `@babel/core`

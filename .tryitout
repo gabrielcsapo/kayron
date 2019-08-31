@@ -59,11 +59,28 @@ module.exports = {
         let g = %(d / b) * ~(t / b);
       \`));
     `
+  }, {
+    type: "code",
+    title: "It can even colorize for ascii output",
+    value: `
+      var Krayon = require('krayon');
+
+      console.html(Krayon(\`
+        const t = 'hi';
+        let b = 'hi';
+        b += 'hiii';
+        var d = 'asdf';
+        b -= 'hiii';
+        let s = b || d;
+        let f = !b || d;
+        let e = !b <> s;
+        let g = %(d / b) * ~(t / b);
+      \`, { output: 'ascii' }));
+    `
   }],
   output: "./docs",
   externals: [
     "./dist/krayon.min.js",
-    "./dist/krayon.css",
     "./docs/main.css"
   ]
 };

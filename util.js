@@ -40,6 +40,21 @@ const syntax = {
 }
 
 /**
+ * turns a key value pair object to a style string
+ * @param  {Object} styleObject - object containing key value pair
+ * @return {String}             - css style string
+ */
+function objectToStyleString(styleObject) {
+  let styleString = '';
+
+  Object.keys(styleObject).forEach((key) => {
+    styleString += `${key}:${styleObject[key]}`;
+  });
+
+  return styleString;
+}
+
+/**
  * walks through the syntaxes that we have and tokenizes the entities that correspond
  * @method parse
  * @param  {String} code - raw code string
@@ -109,6 +124,7 @@ function decode (str) {
 }
 
 module.exports = {
+  objectToStyleString,
   decode,
   encode,
   parse

@@ -1,5 +1,5 @@
 const test = require('tape')
-const { encode, decode, parse } = require('../util.js')
+const { encode, decode, parse, objectToStyleString } = require('../util.js')
 
 test('@util', (t) => {
   t.test('encode', (t) => {
@@ -12,6 +12,12 @@ test('@util', (t) => {
     t.plan(1)
 
     t.equal(decode('⡢ ⡯ ⡯'), 'boo')
+  })
+
+  t.test('@objectToStyleString', (t) => {
+    t.plan(1);
+
+    t.equal(objectToStyleString({ color: 'blue', 'font-size': '19px'}), 'color:bluefont-size:19px')
   })
 
   t.test('encode', (t) => {

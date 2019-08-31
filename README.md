@@ -18,8 +18,6 @@ npm install krayon --save
 
 ## Usage
 
-> Since there is a html component to this library it is import to include `krayon/dist/krayon.css`
-
 ```js
 require('krayon/dist/krayon.css');
 
