@@ -244,4 +244,44 @@ test('@krayon', (t) => {
       t.\x1b[38;5;32mpipe\x1b[39m(d.\x1b[38;5;32mpipe\x1b[39m(b.\x1b[38;5;32mpipe\x1b[39m()));
     `)
   })
+
+  t.test('should be able to deal with missing them values', t => {
+    t.plan(2);
+
+    const testString = `
+      var d = 9;
+    `
+
+    const theme = {
+      'string': {
+        color: '#032f62'
+      },
+      'keyword': {
+        color: '#d73a49'
+      },
+      'operator': {
+        color: '#d73a49'
+      },
+      'function': {
+        color: '#005cc5'
+      },
+      'class': {
+        color: '#6f42c1'
+      },
+      'comment': {
+        color: '#6a737d'
+      },
+      'default': {
+        color: '#000000'
+      }
+    }
+
+    t.equal(krayon(testString, { theme }), `
+      <span class="keyword" style=color:#d73a49>var</span> d <span class="operator" style=color:#d73a49>=</span> <span class="number" style=color:#000000>9</span>;
+    `)
+
+    t.equal(krayon(testString, { theme, output: 'ascii' }), `
+      \x1b[38;5;167mvar\x1b[39m d \x1b[38;5;167m=\x1b[39m \x1b[38;5;16m9\x1b[39m;
+    `)
+  })
 })

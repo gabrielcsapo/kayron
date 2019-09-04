@@ -19,6 +19,12 @@ const defaultTheme = {
   },
   'comment': {
     color: '#6a737d'
+  },
+  'number': {
+    color: '#164',
+  },
+  'default': {
+    color: '#fffff'
   }
 }
 
@@ -44,9 +50,9 @@ module.exports = function kayron (code, options = {}) {
     if (decoded !== '\x00') {
       switch (output) {
         case 'html':
-          return `<span class="${name}" style=${objectToStyleString(theme[name])}>${decoded}</span>`
+          return `<span class="${name}" style=${objectToStyleString(theme[name] || theme['default'])}>${decoded}</span>`
         case 'ascii':
-          return chalk.hex(theme[name].color)(decoded)
+          return chalk.hex(theme[name] && theme[name].color || theme['default'].color)(decoded)
         default:
           return value
       }

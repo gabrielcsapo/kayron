@@ -1,8 +1,13 @@
-# 0.2.1 (11/28/2018)
+# 0.2.2 (09/03/2019)
+
+- adds the ability to have a default styling
+- adds styling for number
+
+# 0.2.1 (08/31/2018)
 
 - set color level to 2
 
-# 0.2.0 (11/28/2018)
+# 0.2.0 (08/31/2018)
 
 - introduces new options argument
   - it will take an output type (html or ascii)
